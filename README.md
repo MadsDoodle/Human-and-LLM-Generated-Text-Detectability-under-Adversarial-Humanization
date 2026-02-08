@@ -1,0 +1,2 @@
+# Human-and-LLM-Generated-Text-Detectability-under-Adversarial-Humanization
+This project aims to address this gap by conducting a systematic, controlled study of human versus LLM-generated text detectability using paired question–answer datasets. Rather than proposing a novel detection architecture, the focus is on analyzing detection robustness, failure modes, and the impact of adversarial humanization strategies.
