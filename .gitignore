@@ -1,0 +1,108 @@
+# ================================================================
+# Python
+# ================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+env/
+venv/
+.venv/
+pip-wheel-metadata/
+
+# ================================================================
+# Jupyter Notebooks — outputs and checkpoints
+# ================================================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ================================================================
+# Data — never commit raw or processed datasets
+# ================================================================
+data/*.csv
+data/*.json
+data/*.jsonl
+data/*.parquet
+data/*.pkl
+data/*.npz
+data/*.npy
+data/HC3/
+data/ELI5/
+
+# ================================================================
+# Results — populated at runtime, not version controlled
+# ================================================================
+results/
+stage3_results/
+!results/.gitkeep
+
+# ================================================================
+# Trained Models — too large for git, push to HF Hub instead
+# ================================================================
+models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+checkpoint-*/
+
+# ================================================================
+# LLM Detector Checkpoints (resume files)
+# ================================================================
+**/ckpt_*.json
+
+# ================================================================
+# Generated Corpus & Embeddings
+# ================================================================
+generated_corpus.pkl
+embeddings_3B.pkl
+deberta_scores_*.npy
+ppl_scores_*.npz
+stat_scores_*.npy
+
+# ================================================================
+# Configs & Secrets
+# ================================================================
+.env
+.env.*
+*.env
+secrets.yaml
+secrets.json
+
+# ================================================================
+# OS & Editor
+# ================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ================================================================
+# Logs & Profiling
+# ================================================================
+*.log
+logs/
+runs/
+wandb/
+tensorboard/
+
+# ================================================================
+# HuggingFace Cache
+# ================================================================
+.cache/
+~/.cache/huggingface/
