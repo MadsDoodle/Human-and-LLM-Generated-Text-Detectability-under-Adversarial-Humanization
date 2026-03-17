@@ -2,7 +2,7 @@
 ### A Comprehensive Benchmark of AI-Generated Text Detectors Across Architectures, Domains, and Adversarial Conditions
 
 <p align="center">
-  <img src="assets/pipeline_figure.png" alt="Benchmark Pipeline" width="850"/>
+  <img src="assets/model_arch.png" alt="Benchmark Pipeline" width="850"/>
 </p>
 
 <p align="center">
@@ -28,12 +28,6 @@ This work presents a **comprehensive, multi-stage benchmark** evaluating **six d
 - LLM-as-detector prompting lags far behind fine-tuned approaches — best open-source result LLaMA-2-13B CoT at AUROC 0.898, GPT-4o-mini zero-shot at 0.909 on ELI5
 - Perplexity-based detectors reveal a **critical polarity inversion** that, once corrected, yields AUROC ≈0.91
 - No detector family generalizes robustly across LLM sources and domains simultaneously
-
----
-
-<p align="center">
-  <img src="assets/model_arch.png" alt="Model Architecture" width="800"/>
-</p>
 
 ---
 
@@ -395,11 +389,11 @@ score = constrained_score(
 
 ## 🔬 Detector Architecture Details
 
-### Family 1 — Statistical / Classical
+### Statistical / Classical
 
 22 hand-crafted features across 7 categories: surface statistics, lexical diversity, punctuation, repetition metrics, entropy measures, syntactic complexity, and discourse markers. Classifiers: Logistic Regression, Random Forest (100 trees, depth 10), SVM with RBF kernel (Platt-scaled).
 
-### Family 2 — Fine-Tuned Encoder Transformers
+### Fine-Tuned Encoder Transformers
 
 | Model | Params | Precision | Batch | Warmup | Notes |
 |-------|--------|-----------|-------|--------|-------|
@@ -411,22 +405,22 @@ score = constrained_score(
 
 Shared: AdamW (lr=2e-5, wd=0.01), 1 epoch, dropout=0.2, max_seq_len=512, 10% val split.
 
-### Family 3 — Shallow 1D-CNN
+### Shallow 1D-CNN
 
 Embedding (vocab=30k, dim=128) → 4 parallel Conv1D branches (kernel sizes {2,3,4,5}, 128 filters each, BatchNorm+ReLU) → Global Max Pool → Dense (512→256→1). Total params: <5M. Trained with Adam (lr=1e-3), early stopping (patience=3), max 10 epochs.
 
-### Family 4 — Stylometric Hybrid
+### Stylometric Hybrid
 
 60+ features extending Family 1 with: POS tag distribution (spaCy), dependency tree depth, function word profiles, punctuation entropy, AI hedge phrase density, 6 readability indices (Flesch, Gunning Fog, etc.), sentence-level GPT-2 perplexity statistics (mean, variance, CV). Classifiers: LR, RF (300 trees), XGBoost (400 estimators, lr=0.05). SHAP TreeExplainer for attribution.
 
-### Family 5 — LLM-as-Detector
+### LLM-as-Detector
 
 Constrained next-token logit decoding at the `Answer:` position. Key pipeline components:
 - **Polarity correction**: Qwen/LLaMA-2 use swapped prompts (yes=human, no=AI) due to unconditional no-bias
 - **Task prior calibration**: Subtract averaged yes/no logits over 50 real task prompts
 - **CoT ensemble**: 0.6×conf + 0.4×logit, with a per-model dead zone where only the logit is used
 
-### Family 6 — Perplexity-Based (Unsupervised)
+### Perplexity-Based (Unsupervised)
 
 5 reference models (GPT-2 S/M/XL, GPT-Neo-125M/1.3B). Sliding window (512 tokens, stride 256). Outlier clip at 10,000 PPL. Four normalization methods evaluated (rank, log-rank, minmax, sigmoid); best selected per condition by AUROC.
 
