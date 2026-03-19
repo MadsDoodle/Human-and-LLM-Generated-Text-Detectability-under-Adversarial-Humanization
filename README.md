@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-Preprint-red?logo=arxiv" alt="arXiv"/></a>
+  <a href="https://arxiv.org/abs/2603.17522"><img src="https://img.shields.io/badge/arXiv-Preprint-red?logo=arxiv" alt="arXiv"/></a>
   <a href="https://huggingface.co/Moodlerz"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Moodlerz-yellow" alt="HuggingFace"/></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Python"/>
   <img src="https://img.shields.io/badge/PyTorch-2.1%2B-orange?logo=pytorch" alt="PyTorch"/>
@@ -25,7 +25,7 @@ This work presents a **comprehensive, multi-stage benchmark** evaluating **six d
 **Central findings:**
 - Fine-tuned transformers achieve near-perfect in-distribution AUROC (≥0.994) but degrade universally under domain shift
 - An XGBoost stylometric hybrid matches transformer performance while remaining interpretable via SHAP
-- LLM-as-detector prompting lags far behind fine-tuned approaches — best open-source result LLaMA-2-13B CoT at AUROC 0.898, GPT-4o-mini zero-shot at 0.909 on ELI5
+- LLM-as-detector prompting lags far behind fine-tuned approaches — best open-source result LLaMA-2-13B-Chat CoT at AUROC 0.898, GPT-4o-mini zero-shot at 0.909 on ELI5
 - Perplexity-based detectors reveal a **critical polarity inversion** that, once corrected, yields AUROC ≈0.91
 - No detector family generalizes robustly across LLM sources and domains simultaneously
 
@@ -124,7 +124,7 @@ If you are running locally, an **A100 or equivalent (≥40GB VRAM)** is recommen
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/detecting-the-machine.git
+git clone https://github.com/MadsDoodle/Human-and-LLM-Generated-Text-Detectability-under-Adversarial-Humanization.git
 cd detecting-the-machine
 ```
 
@@ -239,7 +239,7 @@ Shallow multi-filter 1D-CNN (<5M parameters). Includes degradation curve analysi
 
 ### Notebook 05 — LLM-as-Detector
 
-Zero-shot, few-shot, and Chain-of-Thought detection using TinyLlama-1.1B, Qwen2.5-1.5B, Qwen2.5-7B, LLaMA-3.1-8B, LLaMA-2-13B, Qwen2.5-14B, and GPT-4o-mini.
+Zero-shot, few-shot, and Chain-of-Thought detection using TinyLlama-1.1B-Chat-v1.0, Qwen2.5-1.5B-Instruct, Qwen2.5-7B-Instruct, Llama-3.1-8B-Instruct,  LLaMA-2-13B-Chat, Qwen2.5-14B-Instruct, and GPT-4o-mini.
 
 > ⚠️ **Gated models** (LLaMA-2, LLaMA-3): Requires a HuggingFace token with access granted at [meta-llama/Llama-2-13b-chat-hf](https://huggingface.co/meta-llama/Llama-2-13b-chat-hf).
 
@@ -294,12 +294,12 @@ Three-level humanization (L0 → L1 → L2) using Qwen2.5-1.5B-Instruct as the r
 
 | Model | Regime | HC3 AUROC | ELI5 AUROC |
 |-------|--------|-----------|------------|
-| TinyLlama-1.1B | Zero-Shot | 0.565 | 0.507 |
-| Qwen2.5-1.5B | Zero-Shot | 0.522 | 0.521 |
-| LLaMA-3.1-8B | Zero-Shot | 0.730 | 0.751 |
-| Qwen2.5-7B | CoT | 0.639 | **0.781** |
-| LLaMA-2-13B | CoT | **0.878** | **0.898** |
-| Qwen2.5-14B | CoT | 0.662 | 0.800 |
+| TinyLlama-1.1B-Chat-v1.0 | Zero-Shot | 0.565 | 0.507 |
+| Qwen2.5-1.5B-Instruct | Zero-Shot | 0.522 | 0.521 |
+| Llama-3.1-8B-Instruct | Zero-Shot | 0.730 | 0.751 |
+| Qwen2.5-7B-Instruct | CoT | 0.639 | **0.781** |
+| LLaMA-2-13B-Chat | CoT | **0.878** | **0.898** |
+| Qwen2.5-14B-Instruct | CoT | 0.662 | 0.800 |
 | GPT-4o-mini | Zero-Shot | 0.847 | **0.909** |
 
 ### Stage 1: Perplexity Detectors (Best per Model)
@@ -514,7 +514,7 @@ GPT-2/GPT-Neo assign **lower** perplexity to LLM-generated text (not higher). A 
 ### LLM-as-Detector Prior Calibration
 Without task prior subtraction, RLHF-aligned models collapse all outputs to near-uniform scores. The prior must be computed from the **exact same prompt template** used at inference time. See `src/detectors/llm_detector/scoring.py::compute_task_prior()`.
 
-### Qwen2.5-14B Generation Fix
+### Qwen2.5-14B-Instruct Generation Fix
 Using `eos_token_id` as `pad_token_id` in `model.generate()` causes **premature termination** and a ~90% unknown verdict rate in CoT. Always set `pad_token_id=tokenizer.pad_token_id` explicitly.
 
 ### Length Matching
@@ -552,9 +552,8 @@ If you use this codebase or findings in your research, please cite:
   title   = {Detecting the Machine: A Comprehensive Benchmark of AI-Generated Text
              Detectors Across Architectures, Domains, and Adversarial Conditions},
   author  = {Baidya, Madhav S. and Baidya, S. S. and Chawla, Chirag},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2024},
-  url     = {https://arxiv.org/abs/XXXX.XXXXX}
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2603.17522}
 }
 ```
 
@@ -588,4 +587,4 @@ For questions, issues, or collaboration inquiries:
 - **S. S. Baidya** — saurav.baidya@iitg.ac.in
 - **Chirag Chawla** — chirag.chawla.chy22@itbhu.ac.in
 
-Please open a [GitHub Issue](https://github.com/YOUR_USERNAME/detecting-the-machine/issues) for bugs or feature requests.
+Please open a [GitHub Issue](https://github.com/MadsDoodle/Human-and-LLM-Generated-Text-Detectability-under-Adversarial-Humanization.git) for bugs or feature requests.
